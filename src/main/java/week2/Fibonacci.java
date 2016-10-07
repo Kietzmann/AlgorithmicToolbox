@@ -1,9 +1,5 @@
 package week2;
 
-/**
- * Created by dkytsmen on 10/5/16.
- */
-
 import java.util.Scanner;
 
 public class Fibonacci {

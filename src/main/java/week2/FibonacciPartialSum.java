@@ -1,0 +1,45 @@
+package week2;
+
+import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class FibonacciPartialSum {
+    private static BigInteger SUM_CYCLE;
+
+    static {
+        SUM_CYCLE = BigInteger.valueOf(Arrays.stream(getPisanoPeriodFor10())
+                .sum());
+    }
+
+    private static int getFibonacciPartialSum(long from, long to) {
+        int sum = 0;
+        int[] pisanoPeriod = getPisanoPeriodFor10();
+
+        int i = (int) (from % pisanoPeriod.length);
+        int l2 = (int) (to % pisanoPeriod.length);
+        while (i <= l2) {
+            sum += pisanoPeriod[i % pisanoPeriod.length];
+            i++;
+        }
+
+        long l = to / pisanoPeriod.length;
+        return SUM_CYCLE.multiply(BigInteger.valueOf(l))
+                .add(BigInteger.valueOf(sum))
+                .mod(BigInteger.TEN)
+                .intValue();
+    }
+
+    private static int[] getPisanoPeriodFor10() {
+        return new int[]{0, 1, 1, 2, 3, 5, 8, 3, 1, 4, 5, 9, 4, 3, 7, 0, 7, 7, 4, 1, 5, 6, 1, 7, 8, 5, 3, 8, 1, 9, 0,
+                9, 9, 8, 7, 5, 2, 7, 9, 6, 5, 1, 6, 7, 3, 0, 3, 3, 6, 9, 5, 4, 9, 3, 2, 5, 7, 2, 9, 1};
+    }
+
+    public static void main(String[] args) {
+        try (Scanner scanner = new Scanner(System.in)) {
+            long from = scanner.nextLong();
+            long to = scanner.nextLong();
+            System.out.println(getFibonacciPartialSum(from, to));
+        }
+    }
+}
