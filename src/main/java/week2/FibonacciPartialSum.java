@@ -8,8 +8,7 @@ public class FibonacciPartialSum {
     private static BigInteger SUM_CYCLE;
 
     static {
-        SUM_CYCLE = BigInteger.valueOf(Arrays.stream(getPisanoPeriodFor10())
-                .sum());
+        SUM_CYCLE = BigInteger.valueOf(Arrays.stream(getPisanoPeriodFor10()).sum());
     }
 
     private static int getFibonacciPartialSum(long from, long to) {

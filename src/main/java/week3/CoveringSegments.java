@@ -1,15 +1,49 @@
+package week3;
+
 import java.util.*;
 
 public class CoveringSegments {
 
-    private static int[] optimalPoints(Segment[] segments) {
+    private static Integer[] optimalPoints(Segment[] segments) {
         //write your code here
-        int[] points = new int[2 * segments.length];
-        for (int i = 0; i < segments.length; i++) {
-            points[2 * i] = segments[i].start;
-            points[2 * i + 1] = segments[i].end;
+        List<Segment> segmentList = Arrays.asList(segments);
+        Collections.sort(segmentList, new Comparator<Segment>() {
+            @Override
+            public int compare(Segment p1, Segment p2) {
+                return p1.end - p2.end; // Ascending
+            }
+        });
+
+        // Really ugly solution, go around the array O(n) times and add points in
+        List<Integer> points = new ArrayList<>();
+        points.add(segmentList.get(0).end);
+        for (int i = 0; i <= segmentList.size(); ) {
+
+            Segment point = segmentList.get(i);
+
+            int spot = 0;
+
+            for (int j = i; j < segmentList.size(); j++) {
+                Segment t = segmentList.get(j);
+                spot = j;
+
+                if (point.end < t.start) {
+                    points.add(t.end);
+                    break;
+                }
+            }
+
+            i = spot;
+
+            if (i == segmentList.size() - 1) {
+                break;
+            }
+
         }
-        return points;
+
+        Integer [] result = new Integer[points.size()];
+        result = points.toArray(result);
+        return result;
     }
 
     private static class Segment {
@@ -20,6 +54,7 @@ public class CoveringSegments {
             this.end = end;
         }
     }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
@@ -30,7 +65,7 @@ public class CoveringSegments {
             end = scanner.nextInt();
             segments[i] = new Segment(start, end);
         }
-        int[] points = optimalPoints(segments);
+        Integer[] points = optimalPoints(segments);
         System.out.println(points.length);
         for (int point : points) {
             System.out.print(point + " ");
